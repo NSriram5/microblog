@@ -19,7 +19,6 @@ function rootReducer(state = INITIAL_STATE, action) {
             return { posts: rest, error: false, comments: state.comments }
         case 'LOAD':
             return state;
-
         default:
             return state;
     }
