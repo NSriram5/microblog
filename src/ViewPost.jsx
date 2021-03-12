@@ -84,25 +84,32 @@ function ViewPost(props) {
             )
         } else {
             return (
-                <>
-                <h1>
-                    {item.title}
-                </h1>
-                <h4>
-                    {item.description}
-                </h4>
-                <p>
-                    {item.body}
-                </p>
-                <div onClick={handleEdit}>edit</div>
-                <div onClick={handleDelete}>delete</div>
-                </>
+                <div className="">
+                    <h1>
+                        {item.title}
+                    </h1>
+                    <h4>
+                        {item.description}
+                    </h4>
+                    <p>
+                        {item.body}
+                    </p>
+                    <div className="position-absolute" style={{"top":"0px","right":"0px"}}>
+                        <div className="d-inline" onClick={handleEdit}>
+                            <i className="bi bi-pencil-square"></i>
+                        </div>
+                        <div className="d-inline" onClick={handleDelete} style={{"color":"red"}}>
+                            <i className="bi bi-x"></i>
+                        </div>
+
+                    </div>
+                </div>
             )
         }
     }
     return (
         <div className="pt-5">
-            <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+            <div className="container position-relative col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                 {renderView()}
             </div>
             <div>

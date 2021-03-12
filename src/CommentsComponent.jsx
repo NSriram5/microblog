@@ -34,7 +34,7 @@ function CommentComponent({id,comments,setComments}){
                     if (comments[key]){
                         return(
                             <div key={key}>
-                                <span onClick={()=>handleDelete(key)}>x</span><span>{`     ${comments[key].comment}`}</span>
+                                <i className="bi bi-x" style={{"color":"red"}} onClick={()=>handleDelete(key)}></i><span>{`     ${comments[key].comment}`}</span>
                             </div>);
                     }
                     return null;
