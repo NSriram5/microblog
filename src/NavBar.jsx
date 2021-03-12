@@ -8,6 +8,7 @@ function Navbar({links}) {
         <nav className="Navigation navbar navbar-expand-md">
             <div className="container-fluid">
             <NavLink className="navbar-brand" to="/">Microblog</NavLink>
+            <p>Get in the flow of blogging!</p>
             <ul className="navbar-nav ms-auto">
                 {links.map(link=>{
                     return(

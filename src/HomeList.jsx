@@ -1,20 +1,18 @@
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
-import UserContext from "./userContext";
 import { NavLink, useHistory, Redirect } from "react-router-dom";
 
 function HomeList() {
-    const user = useContext(UserContext);
-    const { posts } = useSelector(st => st.posts);
-
+    const posts = useSelector(st => st.posts);
     return (
         <div className="pt-5">
             Welcome to <strong>Microblog</strong>, our innovative site for communicating on the information superhighway.
             <div className="row">
-                {Object.keys().map((key)=>{
+                {Object.keys(posts).map((key)=>{
+                    return(
                     <div className="card col-3">
                         <div className="card-body">
-                            <NavLink to={{pathname:`/${key}`,state:{item:post[key],key:key}}}>
+                            <NavLink to={{pathname:`/${key}`,state:{item:posts[key],key:key}}}>
                             <div className="card-title">
                                 {posts[key].title}
                             </div>
@@ -25,7 +23,7 @@ function HomeList() {
                         </div>
                     </div>
 
-                })}
+                )})}
             </div>
 
         </div>
