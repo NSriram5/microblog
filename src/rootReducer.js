@@ -1,40 +1,24 @@
-const INITIAL_STATE = { posts: {}, error: false };
+import { v4 as uuidv4 } from 'uuid';
+
+const INITIAL_STATE = { posts: {}, error: false, comments: {} };
 
 function rootReducer(state = INITIAL_STATE, action) {
+    const post = action.post
+    let key = action.id
     switch (action.type) {
-        case 'ADD':
-            return state;
-        case 'EDIT':
-            return state;
-        case 'REMOVE':
-            return state;
-            // case "ADD":
-            //     if (targetId in cart) {
-            //         const updatedCartItem = {...cart[targetId], count: cart[targetId].count + 1 }
-            //         return {...state, cart: {...cart, [targetId]: updatedCartItem } }
-            //     }
-            //     return { offerings: state.offerings, cart: {...cart, [targetId]: { price: 0, count: 1, discount: 1 } } };
 
-            // case "REMOVE":
-            //     if (!(targetId in cart)) {
-            //         return state;
-            //     }
-            //     if (cart[targetId].count === 1) {
-            //         const {
-            //             [targetId]: a, ...theRest
-            //         } = cart
-            //         return { offerings: state.offerings, cart: theRest };
-            //     }
-            //     const updatedCartItem = {...cart[targetId], count: cart[targetId].count - 1 }
-            //     return {...state, cart: {...cart, [targetId]: updatedCartItem } }
-            // case "EDIT":
-            //     if (!(targetId in cart)) {
-            //         return state;
-            //     }
-            //     const {
-            //         [targetId]: a, ...theRest
-            //     } = cart
-            //     return { offerings: state.offerings, cart: theRest };
+        case 'ADD':
+            key = uuidv4();
+            return { posts: {...state.posts, [key]: post }, error: false, comments: state.comments };
+        case 'EDIT':
+            return { posts: {...state.posts, [key]: post }, error: false, comments: state.comments };
+        case 'REMOVE':
+            const {
+                [key]: a, ...rest
+            } = state.posts
+            return { posts: rest, error: false, comments: state.comments }
+        case 'LOAD':
+            return state;
 
         default:
             return state;

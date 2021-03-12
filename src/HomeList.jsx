@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
-import { NavLink, useHistory, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import ViewPost from "./ViewPost";
 
 function HomeList() {
     const posts = useSelector(st => st.posts);
@@ -10,13 +11,15 @@ function HomeList() {
             <div className="row">
                 {Object.keys(posts).map((key)=>{
                     return(
-                    <div className="card col-3">
+                    <div className="card col-3" key={key}>
                         <div className="card-body">
-                            <NavLink to={{pathname:`/${key}`,state:{item:posts[key],key:key}}}>
+                            <Link to={{pathname:`/${key}`,
+                                    post:posts[key]
+                                    }}>
                             <div className="card-title">
                                 {posts[key].title}
                             </div>
-                            </NavLink>
+                            </Link>
                             <div className="body">
                                 {posts[key].description}
                             </div>

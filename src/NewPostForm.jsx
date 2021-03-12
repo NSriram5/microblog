@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useParams, useHistory, Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 function NewPostForm({createPost}) {
     const history = useHistory();
+    const dispatch = useDispatch();
     const blankForm = {
         title:"",
         description:"",
@@ -19,7 +21,7 @@ function NewPostForm({createPost}) {
     }
 
     function printErrors(){
-        if (errors.length!=0){
+        if (errors.length!==0){
             return(
                 <div className="alert alert-danger" role="alert">
                     {errors.map((err,index)=>{return(
@@ -36,7 +38,8 @@ function NewPostForm({createPost}) {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         setErrors([]);
-        createPost(formData);
+        dispatch({type:"ADD",post:formData});
+        history.push("/");
     }
 
     const handleCancel = (evt) => {

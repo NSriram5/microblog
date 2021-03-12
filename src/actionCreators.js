@@ -4,13 +4,14 @@ const API_URL = ''
 
 function fetchPosts() {
     return {
-        type: 'GET'
+        type: 'LOAD'
     };
 }
 
 function handleError(error) {
     return {
-        type: 'ERROR'
+        type: 'ERROR',
+        error
     };
 }
 
