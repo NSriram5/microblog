@@ -1,8 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './bootstrap.css';
 import './index.css';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import rootReducer from "./rootReducer";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__
+    && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
+);
 
 ReactDOM.render(
   <React.StrictMode>
