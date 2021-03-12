@@ -14,7 +14,7 @@ function HomeList() {
                 {Object.keys().map((key)=>{
                     <div className="card col-3">
                         <div className="card-body">
-                            <NavLink to={`/${key}`}>
+                            <NavLink to={{pathname:`/${key}`,state:{item:post[key],key:key}}}>
                             <div className="card-title">
                                 {posts[key].title}
                             </div>
