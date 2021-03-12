@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-function NewPostForm({createPost}) {
+function NewPostForm({post}) {
     const history = useHistory();
     const dispatch = useDispatch();
     const blankForm = {
@@ -48,7 +48,6 @@ function NewPostForm({createPost}) {
 
     return (
         <div className="pt-5">
-        <div className="SignupForm">
             <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                 <h2 className="mb-3">New Post</h2>
                 <div className="card">
@@ -73,7 +72,6 @@ function NewPostForm({createPost}) {
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     );
 }
