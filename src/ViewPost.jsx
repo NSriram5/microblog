@@ -17,8 +17,8 @@ function ViewPost({createPost}) {
                 <p>
                     {item.body}
                 </p>
-                <div onClick={}>edit</div>
-                <div onClick={}>delete</div>
+                <div onClick={()=>0}>edit</div>
+                <div onClick={()=>0}>delete</div>
             </div>
         </div>
     );

@@ -5,10 +5,11 @@ import './index.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-import rootReducer from "./rootReducer";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import rootReducer from "./rootReducer";
+
 
 const store = createStore(
   rootReducer,
@@ -20,9 +21,9 @@ const store = createStore(
 );
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store = { store } >
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
