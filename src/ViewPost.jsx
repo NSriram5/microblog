@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+import CommentsComponent from "./CommentsComponent";
+
 function ViewPost(props) {
     const {id:key}=useParams();
     const location = useLocation();
     const history = useHistory();
     const dispatch = useDispatch();
     const [item, setItem] = useState(location.post);
+    const [comments, setComments] = useState(location.comments)
     const [editMode, setEditMode] = useState(false);
     
     const blankForm = {
@@ -101,6 +104,9 @@ function ViewPost(props) {
         <div className="pt-5">
             <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                 {renderView()}
+            </div>
+            <div>
+                <CommentsComponent id={key} comments={comments} setComments={setComments}/>
             </div>
         </div>
     );

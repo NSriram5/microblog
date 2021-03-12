@@ -5,6 +5,8 @@ import ViewPost from "./ViewPost";
 
 function HomeList() {
     const posts = useSelector(st => st.posts);
+    const comments = useSelector(st => st.comments)
+
     return (
         <div className="pt-5">
             Welcome to <strong>Microblog</strong>, our innovative site for communicating on the information superhighway.
@@ -14,7 +16,8 @@ function HomeList() {
                     <div className="card col-3" key={key}>
                         <div className="card-body">
                             <Link to={{pathname:`/${key}`,
-                                    post:posts[key]
+                                    post:posts[key],
+                                    comments:comments[key]
                                     }}>
                             <div className="card-title">
                                 {posts[key].title}
