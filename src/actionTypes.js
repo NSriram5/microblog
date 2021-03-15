@@ -1,3 +1,9 @@
 export const ADD = "ADD";
-export const REDUCE = "REDUCE";
+export const EDIT = "EDIT";
 export const REMOVE = "REMOVE";
+export const LOAD_SUMMARY = "LOAD_SUMMARY";
+export const LOAD_SPECIFIC = "LOAD_SPECIFIC";
+export const ADD_COMMENT = "ADD_COMMENT";
+export const DELETE_COMMENT = "DELETE_COMMENT";
+export const UPVOTE = "UPVOTE";
+export const DOWNVOTE = "DOWNVOTE";

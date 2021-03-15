@@ -1,29 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import CommentsComponent from "./CommentsComponent";
+import { fetchSpecificPostFromAPI, updatePostToAPI , deletePostFromAPI, voteWithAPI} from "./actionCreators";
 
 function ViewPost(props) {
     const {id:key}=useParams();
     const location = useLocation();
     const history = useHistory();
     const dispatch = useDispatch();
-    const [item, setItem] = useState(location.post);
-    const [comments, setComments] = useState(location.comments)
+    const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [editMode, setEditMode] = useState(false);
+    const [blankForm, setBlankForm] = useState({
+        title:"",
+        description:"",
+        body:""
+    })
+    const post = useSelector(st=> st.detailPosts[key],shallowEqual);
     
-    const blankForm = {
-        title:item.title,
-        description:item.description,
-        body:item.body
-    }
+    useEffect(()=>{
+        dispatch(fetchSpecificPostFromAPI({id:key}));
+    },[dispatch])
+
+    useEffect(()=>{
+        if (post) {
+            setBlankForm({
+                title:post.title,
+                description:post.description,
+                body:post.body
+            });
+            setComments(post.comments);
+            setLoading(false);
+        }
+    },[post])
+
+    
     const [formData,setFormData] = useState(blankForm);
     const [errors,setErrors]=useState([]);
-
+    
+    useEffect(()=>{
+        setFormData(blankForm);    
+    },[blankForm])
 
     const handleDelete = () =>{
-        dispatch({type:"REMOVE",id:key})
+        dispatch(deletePostFromAPI({key:key}));
         history.push("/");
     }
 
@@ -49,8 +71,7 @@ function ViewPost(props) {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         setErrors([]);
-        dispatch({type:"EDIT",id:key ,post:formData});
-        setItem(formData)
+        dispatch(updatePostToAPI({inputPost:{...formData,id:key}}))
         setEditMode(false);
     }
 
@@ -62,6 +83,11 @@ function ViewPost(props) {
     }
 
     const renderView = () =>{
+        if (loading){
+            return(
+                <h1>Loading</h1>
+            );
+        }
         if (editMode){
             return(
                 <form onSubmit={handleSubmit}>
@@ -86,20 +112,27 @@ function ViewPost(props) {
             return (
                 <div className="">
                     <h1>
-                        {item.title}
+                        {post.title}
                     </h1>
                     <h4>
-                        {item.description}
+                        {post.description}
                     </h4>
                     <p>
-                        {item.body}
+                        {post.body}
                     </p>
                     <div className="position-absolute" style={{"top":"0px","right":"0px"}}>
-                        <div className="d-inline" onClick={handleEdit}>
-                            <i className="bi bi-pencil-square"></i>
+                        <div>
+                            <div className="d-inline" onClick={handleEdit}>
+                                <i className="bi bi-pencil-square"></i>
+                            </div>
+                            <div className="d-inline" onClick={handleDelete} style={{"color":"red"}}>
+                                <i className="bi bi-x"></i>
+                            </div>
                         </div>
-                        <div className="d-inline" onClick={handleDelete} style={{"color":"red"}}>
-                            <i className="bi bi-x"></i>
+                        <div>
+                            {`${post.votes} votes`}
+                            <i style={{color:"green"}} class="bi bi-hand-thumbs-up-fill" onClick={()=>dispatch(voteWithAPI({key:post.id,direction:"up"}))}></i>
+                            <i style={{color:"red"}} class="bi bi-hand-thumbs-down-fill" onClick={()=>dispatch(voteWithAPI({key:post.id,direction:"down"}))}></i>
                         </div>
 
                     </div>
@@ -107,13 +140,24 @@ function ViewPost(props) {
             )
         }
     }
+
+    const renderCommentView = () =>{
+        if (loading){
+            return(
+                <h1>Loading</h1>
+            );
+        }
+        return (
+            <CommentsComponent id={key} comments={comments} setComments={setComments}/>
+        )
+    }
     return (
         <div className="pt-5">
             <div className="container position-relative col-md-6 offset-md-3 col-lg-4 offset-lg-4">
                 {renderView()}
             </div>
             <div>
-                <CommentsComponent id={key} comments={comments} setComments={setComments}/>
+                {renderCommentView()}
             </div>
         </div>
     );

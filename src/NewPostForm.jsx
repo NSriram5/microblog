@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { postPostToAPI } from "./actionCreators";
 
 function NewPostForm({post}) {
     const history = useHistory();
@@ -38,7 +39,7 @@ function NewPostForm({post}) {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         setErrors([]);
-        dispatch({type:"ADD",post:formData});
+        dispatch(postPostToAPI({inputPost:formData}));
         history.push("/");
     }
 

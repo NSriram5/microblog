@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useParams, useLocation, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {v4 as uuidv4} from 'uuid';
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { addCommentToAPI, deleteCommentFromAPI,  } from "./actionCreators";
 
-function CommentComponent({id,comments,setComments}){
+function CommentComponent({id}){
     const dispatch = useDispatch();
     const blankForm = {comment:""};
     const [formData,setFormData] = useState(blankForm);
+    const comments = useSelector(st=>st.detailPosts[id].comments,shallowEqual);
     
     const handleChange = (evt)=>{
         const {name,value} = evt.target;
@@ -16,30 +17,20 @@ function CommentComponent({id,comments,setComments}){
     }
     const handleSubmit = (evt)=>{
         evt.preventDefault();
-        const commentId = uuidv4();
-        dispatch({type:"ADD_COMMENT",id,commentId:uuidv4(),comment:formData})
-        setComments({[commentId]:{comment:formData.comment},...comments});
+        dispatch(addCommentToAPI({key:id, text: formData.comment}));
         setFormData(blankForm);
-    }
-    const handleDelete = (key)=>{
-        dispatch({type:"DELETE_COMMENT",id,key})
-        const {[key]:a,...rest} = comments;
-        setComments(rest);
     }
     return(
         <div>
             <h3>Comments</h3>
             {
-                Object.keys(comments).map((key)=>{
-                    if (comments[key]){
-                        return(
-                            <div key={key}>
-                                <i className="bi bi-x" style={{"color":"red"}} onClick={()=>handleDelete(key)}></i><span>{`     ${comments[key].comment}`}</span>
-                            </div>);
+                comments.map((comment)=>{
+                    return(
+                        <div key={comment.id}>
+                            <i className="bi bi-x" style={{"color":"red"}} onClick={()=>dispatch(deleteCommentFromAPI({key:id,commentKey:comment.id}))}></i><span>{`     ${comment.text}`}</span>
+                        </div>);
                     }
-                    return null;
-                })
-
+                )
             }
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
